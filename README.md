@@ -1,4 +1,4 @@
-root
+/root
 |-- README.md
 |-- analysis # データの基礎分析
 |-- config # 環境設定など
@@ -12,7 +12,7 @@ root
 |   |-- analysis  # analysisで行った結果を保存する場所
 |   |-- loading  # loadingで行ったログを保存する場所
 |   |-- model  # モデルの結果を保存する場所
-|   |   ├── predict   # 予測結果の保存する場所
-|   |   └── train   # 学習結果の保存する場所
+|   |   |-- predict   # 予測結果の保存する場所
+|   |   |-- train   # 学習結果の保存する場所
 |   |-- validation  # 検証の結果を保存する場所
 |-- validation  # 検証を行うための場所
