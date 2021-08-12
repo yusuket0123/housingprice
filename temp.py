@@ -16,7 +16,8 @@ def main():
     print(df_tiny)
     print(df_tiny['deal'])
     df_engnr = improve(df = df_tiny)
-    print(df_engnr)
+    print(df_engnr['bldgyrs'])
+    df_engnr.to_csv('data/temp/df_engnr.csv')
 
 ### データ読み込み
 def read_data():
@@ -33,15 +34,18 @@ def clean(df):
     df_c1 = df_c1.select_cols(cols=cols)
     # 最寄
     df_c2 = process.Clean(df = df_c1).clean_moyori()
-    df_c3 = process.Clean(df = df_c2).mutate_madori()
-    df_c4 = process.Clean(df = df_c3).transform_kenchiku()
-    df_c5 = process.Clean(df = df_c4).mutate_renov()
-    df_c6 = process.Clean(df = df_c5).mutate_deal()
-    return df_c6
+    df_c3 = process.Clean(df = df_c2).clean_area()
+    df_c4 = process.Clean(df = df_c3).mutate_madori()
+    df_c5 = process.Clean(df = df_c4).transform_kenchiku()
+    df_c6 = process.Clean(df = df_c5).mutate_renov()
+    df_c7 = process.Clean(df = df_c6).mutate_deal()
+    return df_c7
 
 def improve(df):
     df_e1 = engineer.Engineer(df).combine_purpose()
-    return df_e1
+    df_e2 = engineer.Engineer(df = df_e1).transform_bldgyrs()
+    df_e3 = engineer.Engineer(df = df_e2).transform_std()
+    return df_e3
 
 ### モデリング
 

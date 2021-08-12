@@ -30,14 +30,20 @@ def get_ldkvalue(s, pattern): # s = '4LDK'
 def get_seireki(s):
     s = str(s)
     val = 0
-    if re.match(r'.*昭和.*' ,s):
-        val = int(re.search(r'\d+', s).group()) + 1925
-    elif re.match(r'.*平成.*' ,s):
-        val = int(re.search(r'\d+', s).group()) + 1989
-    elif re.match(r'.*令和.*' ,s):
-        val = int(re.search(r'\d+', s).group()) + 2019
+    if s != '':
+        if re.match(r'.*昭和.*' ,s):
+            val = int(re.search(r'\d+', s).group()) + 1925
+        elif re.match(r'.*平成.*' ,s):
+            val = int(re.search(r'\d+', s).group()) + 1989
+        elif re.match(r'.*令和.*' ,s):
+            val = int(re.search(r'\d+', s).group()) + 2019
+        elif re.match(r'.*戦前.*' ,s):
+            val = 1945
+        else:
+            val = '想定外の元号'
     else:
-        val = '想定外の元号'
+        val = s
+
     return val
 
 class Select():
@@ -58,6 +64,12 @@ class Clean():
     def clean_moyori(self):
         f = lambda x: get_ave(str(x))
         self.mydf['dist_sta'] = self.mydf['最寄駅：距離（分）'].map(f, na_action= 'ignore')
+        return self.mydf
+
+    # 面積m2以上から数字部分だけ取り出す
+    def clean_area(self):
+        f = lambda x: int( re.sub(r'\D', '', str(x) ) )
+        self.mydf['area'] = self.mydf['面積（㎡）'].map(f)
         return self.mydf
 
     # 間取り
